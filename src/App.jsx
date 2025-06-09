@@ -13,17 +13,17 @@ const App = () => {
           {/* use form/input/button, Make width of search bar & other styling identical to sorting w/ placeholder "Search for a movie title", call search-bar class */}
           <div>search</div>
           <select value={sortingMethod} className="sort-options" id="sort-select" onChange={(selection) => setSortingMethod(selection.target.value)}>
-            <option value="" disabled hidden>
+            <option value="" disabled>
               Choose a sorting method
             </option>
+            <option value="rating">Rating (Highest -&gt; Lowest)</option>
             <option value="date">"Date Added (Recent -&gt; Oldest)</option>
             <option value="alphabetical">Name (Alphabetical)</option>
-            <option value="rating">Rating (Highest -&gt; Lowest)</option>
           </select>
         </section>
       </header>
       <main>
-        <MovieList />
+        <MovieList name={"HELLO"} />
       </main>
       {/* modal pop-up goes outside main */}
       <footer>

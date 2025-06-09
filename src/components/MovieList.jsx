@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import MovieCard from "./MovieCard";
 
-const MovieList = (props) => {
+const MovieList = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [movieImages, setMovieImages] = useState([]);
   const options = {
@@ -49,25 +50,20 @@ const MovieList = (props) => {
     );
   }, []);
 
+  console.log(moviesData)
+
   return (
     <>
       <section className="movie-list">
-        {/* map moviesData */}
-        {moviesData.map((movie, index) => {
-          return (
-            <article key={index} className="movie-card">
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                alt={`${movie.title} Poster Image`}
-                className="movie-card-poster"
-              />
-              <h2 className="movie-card-title">{movie.title}</h2>
-              <h3 className="movie-card-rating">
-                Rating: {movie.vote_average}
-              </h3>
-            </article>
-          );
-        })}
+        {moviesData.map((movie, index) => (
+          <MovieCard
+            key={index}
+            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            alt={`${movie.title} Poster Image`}
+            title={movie.title}
+            vote_average={movie.vote_average}
+          />
+        ))}
       </section>
       <button className="load-more-btn">Load More</button>
     </>

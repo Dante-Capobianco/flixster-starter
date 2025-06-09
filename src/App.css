@@ -34,7 +34,26 @@ footer {
   align-items: center;
 }
 
-.sort-options {
+.search-btn {
+  appearance: base-select;
+  border: 2px solid darkgray;
+  border-radius: 20px;
+  background-color: rgb(249, 243, 235);
+  color: black;
+  width: 5vw;
+  padding: 8px 5px 8px 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 0 0 10px;
+}
+
+.search-btn:focus,
+.search-btn:hover {
+  background-color: rgb(238, 228, 215);
+  border: 2px solid gray;
+}
+
+.sort-options, .search-bar {
   appearance: base-select;
   border: 2px solid darkgray;
   border-radius: 5px;
@@ -45,9 +64,15 @@ footer {
   cursor: pointer;
 }
 
-.sort-options:focus {
+.sort-options:focus, .search-bar:focus {
   outline: none;
   border: 2px solid gray;
+}
+
+.search-bar {
+  cursor: text;
+  font-size: 16px;
+  outline: none;
 }
 
 .movie-list {
@@ -105,14 +130,5 @@ footer {
 @media (max-width: 600px) {
   .movie-card {
     width: 100%;
-  }
-
-  .search-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .search-bar form {
-    flex-direction: column;
   }
 }

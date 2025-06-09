@@ -5,6 +5,7 @@ import MovieCard from "./MovieCard";
 const MovieList = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [movieImages, setMovieImages] = useState([]);
+  const [fetchedPage, setFetchedPage] = useState(1);
   const options = {
     method: "GET",
     headers: {
@@ -16,12 +17,12 @@ const MovieList = () => {
   //todo: make page an arg to add several (1-2, 1-3...)
   const fetchMovies = async (URL) => {
     const apiKey = import.meta.env.VITE_APP_API_KEY;
-    let response = await fetch(URL, options);
+    let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${fetchedPage}`, options);
     if (response.status === 200) {
       const movies = await response.json();
-      setMoviesData(movies.results);
+      setMoviesData(...moviesData, movies.results);
 
-      // Fetch movie images
+      // Fetch movie images - extra functionality included
       let movieImagesToAdd = [];
       for await (const movie of movies.results) {
         response = await fetch(
@@ -45,17 +46,14 @@ const MovieList = () => {
   };
 
   useEffect(() => {
-    fetchMovies(
-      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
-    );
-  }, []);
-
-  console.log(moviesData)
+    console.log('hit')
+    fetchMovies();
+  }, [fetchedPage]);
 
   return (
     <>
       <section className="movie-list">
-        {moviesData.map((movie, index) => (
+        {moviesData.length > 0 ? moviesData.map((movie, index) => (
           <MovieCard
             key={index}
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -63,9 +61,10 @@ const MovieList = () => {
             title={movie.title}
             vote_average={movie.vote_average}
           />
-        ))}
+        )) : null}
       </section>
-      <button className="load-more-btn">Load More</button>
+      {/* fix this bc it is removing all data from list */}
+      <button className="load-more-btn" onClick={() => {setFetchedPage(fetchedPage + 1)}}>Load More</button>
     </>
   );
 };

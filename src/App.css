@@ -13,7 +13,7 @@
 main {
   height: 75vh;
   overflow: auto;
-  padding: 10px 0 0 0;
+  padding: 10px 0 10px 0;
 }
 
 footer {
@@ -21,6 +21,10 @@ footer {
   background-color: #282c34;
   height: 8vh;
   margin: auto 0 0 0;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
 }
 
 .header-search-sort {
@@ -81,6 +85,12 @@ footer {
 }
 
 .movie-card-rating {
+  margin-top: 10px;
+}
+
+.load-more-btn {
+  width: 110px;
+  height: 50px;
   margin-top: 10px;
 }
 

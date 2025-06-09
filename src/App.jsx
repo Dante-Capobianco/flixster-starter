@@ -25,7 +25,11 @@ const App = () => {
         <MovieList></MovieList>
       </main>
       {/* modal pop-up goes outside main */}
-      <footer></footer>
+      <footer>
+        <h4>
+          &copy; 2025 Flixster
+        </h4>
+      </footer>
     </div>
   );
 };

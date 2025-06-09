@@ -6,6 +6,7 @@ const MovieList = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [movieImages, setMovieImages] = useState([]);
   const [fetchedPage, setFetchedPage] = useState(1);
+  const [disableLoadMore, setDisableLoadMore] = useState(false);
   const options = {
     method: "GET",
     headers: {
@@ -17,10 +18,15 @@ const MovieList = () => {
   //todo: make page an arg to add several (1-2, 1-3...)
   const fetchMovies = async (URL) => {
     const apiKey = import.meta.env.VITE_APP_API_KEY;
-    let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${fetchedPage}`, options);
+    let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${fetchedPage}}`, options);
     if (response.status === 200) {
       const movies = await response.json();
-      setMoviesData(...moviesData, movies.results);
+
+      if (fetchedPage === movies.total_pages) {
+        setDisableLoadMore(true);
+      }
+
+      setMoviesData([...moviesData, ...movies.results]);
 
       // Fetch movie images - extra functionality included
       let movieImagesToAdd = [];
@@ -38,7 +44,7 @@ const MovieList = () => {
           break;
         }
       }
-      setMovieImages(movieImagesToAdd);
+      setMovieImages(...movieImages, movieImagesToAdd);
     } else {
       setMoviesData([]);
       console.error("Error: ", response.statusText);
@@ -46,7 +52,6 @@ const MovieList = () => {
   };
 
   useEffect(() => {
-    console.log('hit')
     fetchMovies();
   }, [fetchedPage]);
 
@@ -64,7 +69,7 @@ const MovieList = () => {
         )) : null}
       </section>
       {/* fix this bc it is removing all data from list */}
-      <button className="load-more-btn" onClick={() => {setFetchedPage(fetchedPage + 1)}}>Load More</button>
+      <button disabled={disableLoadMore} className="load-more-btn" onClick={() => {setFetchedPage(fetchedPage + 1)}}>Load More</button>
     </>
   );
 };

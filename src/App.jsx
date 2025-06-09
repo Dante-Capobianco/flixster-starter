@@ -9,18 +9,23 @@ const App = () => {
   const handleSearch = (event, submitOrClear) => {
     event.preventDefault();
     if (submitOrClear === "submit") {
-      console.log('submit')
-      document.getElementById('submit-search-btn').blur();
+      document.getElementById("submit-search-btn").blur();
+      if (searchValue.length === 0) {
+        //go back to now playing
+      } else {
+        //rest of logic
+      }
     } else {
-      setSearchValue('');
-      document.getElementById('clear-search-btn').blur();
+      setSearchValue("");
+      document.getElementById("clear-search-btn").blur();
+      // go back to now playing
     }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Flixster</h1>
+        <h1 style={{ margin: 0 }}>Flixster</h1>
         <p>Your go-to tool to find any movies</p>
 
         <section className="header-search-sort">
@@ -29,16 +34,28 @@ const App = () => {
             <input
               type="text"
               class="search-bar"
+              placeholder="Search for a movie title"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-            <button type="submit" onClick={(e) => handleSearch(e, "submit")} id="submit-search-btn" className="search-btn">
-              Submit
+            <button
+              type="submit"
+              onClick={(e) => handleSearch(e, "submit")}
+              id="submit-search-btn"
+              className="search-btn"
+            >
+              Search
             </button>
-            <button type="submit" onClick={(e) => handleSearch(e, "clear")} id="clear-search-btn" className="search-btn">
+            <button
+              type="submit"
+              onClick={(e) => handleSearch(e, "clear")}
+              id="clear-search-btn"
+              className="search-btn"
+            >
               Clear
             </button>
           </form>
+
           <select
             value={sortingMethod}
             className="sort-options"

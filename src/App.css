@@ -109,6 +109,7 @@ footer {
   margin: 5px 0 5px 0;
   height: 70%;
   width: auto;
+  max-width: 90%
 }
 
 .movie-card-title {

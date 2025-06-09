@@ -4,12 +4,84 @@
 
 .App-header {
   background-color: #282c34;
+  color: white;
+  padding: 20px;
+  height: 17vh;
+  box-shadow: 0px 10px 10px gray;
+}
+
+main {
+  height: 75vh;
+  overflow: auto;
+  padding: 10px 0 0 0;
+}
+
+footer {
+  box-shadow: 0px -10px 10px gray;
+  background-color: #282c34;
+  height: 8vh;
+  margin: auto 0 0 0;
+}
+
+.header-search-sort {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.sort-options {
+  appearance: base-select;
+  border: 2px solid darkgray;
+  border-radius: 5px;
+  background-color: rgb(249, 243, 235);
+  color: black;
+  width: 20vw;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.sort-options:focus {
+  outline: none;
+  border: 2px solid gray;
+}
+
+.movie-list {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  color: white;
-  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.movie-card {
+  width: 18vw;
+  height: 37vh;
+  background-color:rgb(235, 240, 249);
+  border: 2px solid #282c34;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease-in-out, scale 0.3s ease-in-out;
+  box-shadow: 0 0 0 darkgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.movie-card:hover,
+.movie-card:focus {
+  cursor: pointer;
+  background-color: rgb(207, 217, 237);
+  box-shadow: 10px 10px 20px gray;
+  scale: 1.04;
+}
+
+.movie-card-title {
+  margin-bottom: 0;
+}
+
+.movie-card-rating {
+  margin-top: 10px;
 }
 
 @media (max-width: 600px) {

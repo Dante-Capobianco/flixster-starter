@@ -3,15 +3,17 @@ import "./App.css";
 import MovieList from "./components/MovieList";
 
 const App = () => {
+  const [sortingMethod, setSortingMethod] = useState("")
+
   return (
     <div className="App">
-      <header class="App-header">
+      <header className="App-header">
         <h1>Flixster</h1>
-        <section class="header-search-sort">
-          {/* Make width of search bar & other styling identical to sorting w/ placeholder "Search for a movie title" */}
+        <section className="header-search-sort">
+          {/* use form/input/button, Make width of search bar & other styling identical to sorting w/ placeholder "Search for a movie title", call search-bar class */}
           <div>search</div>
-          <select class="sort-options" id="sort-select">
-            <option value="" disabled selected hidden>
+          <select value={sortingMethod} className="sort-options" id="sort-select" onChange={(selection) => setSortingMethod(selection.target.value)}>
+            <option value="" disabled hidden>
               Choose a sorting method
             </option>
             <option value="date">"Date Added (Recent -&gt; Oldest)</option>
@@ -19,16 +21,13 @@ const App = () => {
             <option value="rating">Rating (Highest -&gt; Lowest)</option>
           </select>
         </section>
-        {/* call search bar that uses search-bar class & dropdown menu components */}
       </header>
       <main>
-        <MovieList></MovieList>
+        <MovieList />
       </main>
       {/* modal pop-up goes outside main */}
       <footer>
-        <h4>
-          &copy; 2025 Flixster
-        </h4>
+        <h4>&copy; 2025 Flixster</h4>
       </footer>
     </div>
   );
@@ -36,6 +35,4 @@ const App = () => {
 
 export default App;
 
-//todo: use button in index.css, while rest of stiles in App.css
-//todo: use form/input/button for search bar
 // use nav for sidebar

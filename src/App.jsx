@@ -9,6 +9,7 @@ const App = () => {
   const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
   const [footerHeight, setFooterHeight] = useState(0);
   const [moviesData, setMoviesData] = useState([]);
+  const [selectedMovieData, setSelectedMovieData] = useState(null);
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
 
   const handleSearch = (event, submitOrClear) => {
@@ -85,9 +86,9 @@ const App = () => {
       </header>
 
       <main>
-        <MovieList moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
+        <MovieList setSelectedMovieData={setSelectedMovieData} moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
       </main>
-      <MovieModal moviesData={moviesData} />
+      <MovieModal selectedMovieData={selectedMovieData} />
 
       {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer style={{ height: footerHeight }}>

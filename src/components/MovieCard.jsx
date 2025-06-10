@@ -1,6 +1,6 @@
 const MovieCard = (props) => {
   return (
-    <article className="movie-card">
+    <article className="movie-card" onClick={() => props.setSelectedMovieData(props.movieData)}>
       <img
         src={props.src}
         alt={props.alt}

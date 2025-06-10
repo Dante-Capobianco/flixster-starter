@@ -163,13 +163,23 @@ footer {
 
 .modal {
   background-color: #f4f4f4;
-  padding: 20px;
   border: 2px solid darkgray;
   border-radius: 15px;
   width: 50vw;
   height: 70vh;
   overflow: auto;
   box-shadow: 40px 40px 30px black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.modal-backdrop, .modal-poster {
+  margin-bottom: 10px;
+  height: auto;
+  width: 100%;
+  border-radius: 10px;
 }
 
 @media (max-width: 975px) and (min-width: 650px) {

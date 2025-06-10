@@ -34,7 +34,6 @@ const MovieList = (props) => {
         const movies = await response.json();
 
         if (fetchedPage === movies.total_pages) setDisableLoadMore(true);
-
         if (props.moviesData?.length === 0) setAlreadySearched(true);
 
         props.setMoviesData([...props.moviesData, ...movies.results]);
@@ -77,6 +76,8 @@ const MovieList = (props) => {
                 alt={`${movie.title} Poster Image`}
                 title={movie.title}
                 vote_average={movie.vote_average}
+                setSelectedMovieData={props.setSelectedMovieData}
+                movieData={movie}
               />
             ))
           : <h3>No movies found</h3>}

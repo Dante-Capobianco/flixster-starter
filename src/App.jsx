@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList";
+import MovieModal from "./components/MovieModal";
 
 const App = () => {
   const [sortingMethod, setSortingMethod] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
   const [footerHeight, setFooterHeight] = useState(0);
+  const [moviesData, setMoviesData] = useState([]);
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
 
   const handleSearch = (event, submitOrClear) => {
@@ -83,8 +85,9 @@ const App = () => {
       </header>
 
       <main>
-        <MovieList searchQuery={searchQueryToSubmit} />
+        <MovieList moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
       </main>
+      <MovieModal moviesData={moviesData} />
 
       {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer style={{ height: footerHeight }}>

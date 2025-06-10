@@ -5,20 +5,17 @@ import MovieList from "./components/MovieList";
 const App = () => {
   const [sortingMethod, setSortingMethod] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
 
   const handleSearch = (event, submitOrClear) => {
     event.preventDefault();
     if (submitOrClear === "submit") {
       document.getElementById("submit-search-btn").blur();
-      if (searchValue.length === 0) {
-        //go back to now playing
-      } else {
-        //rest of logic
-      }
+      setSearchQueryToSubmit(searchValue);
     } else {
-      setSearchValue("");
       document.getElementById("clear-search-btn").blur();
-      // go back to now playing
+      setSearchValue("");
+      setSearchQueryToSubmit("");
     }
   };
 
@@ -29,31 +26,34 @@ const App = () => {
         <p>Your go-to tool to find any movies</p>
 
         <section className="header-search-sort">
-          {/* use form/input/button, Make width of search bar & other styling identical to sorting */}
           <form>
             <input
               type="text"
               class="search-bar"
-              placeholder="Search for a movie title"
+              placeholder={
+                window.innerWidth >= 500 ? "Search for a movie title" : "Search"
+              }
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-            <button
-              type="submit"
-              onClick={(e) => handleSearch(e, "submit")}
-              id="submit-search-btn"
-              className="search-btn"
-            >
-              Search
-            </button>
-            <button
-              type="submit"
-              onClick={(e) => handleSearch(e, "clear")}
-              id="clear-search-btn"
-              className="search-btn"
-            >
-              Clear
-            </button>
+            <div className="search-btn-container">
+              <button
+                type="submit"
+                onClick={(e) => handleSearch(e, "submit")}
+                id="submit-search-btn"
+                className="search-btn"
+              >
+                Search
+              </button>
+              <button
+                type="submit"
+                onClick={(e) => handleSearch(e, "clear")}
+                id="clear-search-btn"
+                className="search-btn"
+              >
+                Clear
+              </button>
+            </div>
           </form>
 
           <select
@@ -62,7 +62,7 @@ const App = () => {
             onChange={(selection) => setSortingMethod(selection.target.value)}
           >
             <option value="" disabled>
-              Choose a sorting method
+              {window.innerWidth >= 500 ? "Choose a sorting method" : "Sort"}
             </option>
             <option value="rating">Rating (Highest -&gt; Lowest)</option>
             <option value="date">"Date Added (Recent -&gt; Oldest)</option>
@@ -72,10 +72,10 @@ const App = () => {
       </header>
 
       <main>
-        <MovieList name={"HELLO"} />
+        <MovieList searchQuery={searchQueryToSubmit} />
       </main>
 
-      {/* modal pop-up goes outside main */}
+      {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer>
         <h4>&copy; 2025 Flixster</h4>
       </footer>
@@ -84,5 +84,3 @@ const App = () => {
 };
 
 export default App;
-
-// use nav for sidebar

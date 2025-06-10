@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-
 const MovieCard = (props) => {
   return (
     <article className="movie-card">
@@ -9,7 +6,7 @@ const MovieCard = (props) => {
         alt={props.alt}
         className="movie-card-poster"
       />
-      {/* todo: ensure if longer than 2 lines, do ... at 2-line mark*/}
+      {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?usp=sharing */}
       <h2 className="movie-card-title">{props.title}</h2>
       <h3 className="movie-card-rating">Rating: {props.vote_average}</h3>
     </article>

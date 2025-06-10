@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList";
 
@@ -6,6 +6,8 @@ const App = () => {
   const [sortingMethod, setSortingMethod] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
+  const [footerHeight, setFooterHeight] = useState(0);
+  const movieTileHeight = window.innerHeight * 0.75; // 75vh
 
   const handleSearch = (event, submitOrClear) => {
     event.preventDefault();
@@ -19,9 +21,18 @@ const App = () => {
     }
   };
 
+  // On initial render, get header/banner height to dynamically set height of footer to be responsive
+  useEffect(() => {
+    let height =
+      window.innerHeight -
+      document.getElementById("app-header")?.offsetHeight -
+      movieTileHeight;
+    setFooterHeight(height > 50 ? height : 50);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
+      <header id="app-header" className="App-header">
         <h1 style={{ margin: 0 }}>Flixster</h1>
         <p>Your go-to tool to find any movies</p>
 
@@ -76,7 +87,7 @@ const App = () => {
       </main>
 
       {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
-      <footer>
+      <footer style={{ height: footerHeight }}>
         <h4>&copy; 2025 Flixster</h4>
       </footer>
     </div>

@@ -3,14 +3,19 @@ import { useState, useEffect } from "react";
 const MovieModal = (props) => {
   const [movieGenres, setMovieGenres] = useState([]);
   const [movieRuntime, setMovieRuntime] = useState(0);
+  const [trailerKey, setTrailerKey] = useState("");
 
   useEffect(() => {
-    if (props.selectedMovieData) fetchAdditionalData();
+    if (props.selectedMovieData) {
+      fetchAdditionalData();
+      fetchTrailer();
+    }
   }, [props.selectedMovieData]);
 
   const exitModal = () => {
     setMovieGenres([]);
     setMovieRuntime(0);
+    setTrailerKey("");
     props.setSelectedMovieData(null);
   };
 
@@ -43,13 +48,43 @@ const MovieModal = (props) => {
     }
   };
 
+  const fetchTrailer = async () => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${props.selectedMovieData?.id}/videos?language=en-US`,
+        props.options
+      );
+
+      if (response?.status === 200) {
+        const videoData = await response.json();
+        let trailer = videoData?.results.find((video) =>
+          video.name.includes("Official Trailer")
+        );
+        if (!trailer) { // Aim to find official/main trailer, otherwise find any trailer offered
+          trailer = videoData?.results.find((video) =>
+            video.name.includes("Trailer")
+          );
+        }
+        setTrailerKey(trailer ? trailer.key : "");
+      } else {
+        exitModal();
+        console.error("Error: ", response?.statusText);
+      }
+    } catch (err) {
+      exitModal();
+      console.error("Error fetching movie");
+    }
+  };
+
   return (
     <div
       className="modal-container"
       style={{ display: props.selectedMovieData ? "flex" : "none" }}
     >
       <div className="modal">
-        <span class="modal-exit material-symbols-outlined" onClick={exitModal}>close</span>
+        <span class="modal-exit material-symbols-outlined" onClick={exitModal}>
+          close
+        </span>
         <img
           src={`https://image.tmdb.org/t/p/original/${props.selectedMovieData?.backdrop_path}`}
           alt={`${props.selectedMovieData?.title} Backdrop Image`}
@@ -83,6 +118,17 @@ const MovieModal = (props) => {
         </section>
         <section style={{ width: "100%" }}>
           <h3>Trailer</h3>
+          {trailerKey ? (
+            <iframe
+              width="420"
+              height="315"
+              src={`https://www.youtube.com/embed/${trailerKey}`}
+              allowFullScreen
+              className="modal-trailer"
+            ></iframe>
+          ) : (
+            <h4>No trailer has been found for this movie</h4>
+          )}
         </section>
       </div>
     </div>

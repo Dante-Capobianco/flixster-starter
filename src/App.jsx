@@ -80,14 +80,14 @@ const App = () => {
           <select
             value={sortingMethod}
             className="sort-options"
-            onChange={(selection) => setSortingMethod(selection.target.value)}
+            onChange={(event) => setSortingMethod(event.target.value)}
           >
             <option value="" disabled>
               {window.innerWidth >= 500 ? "Choose a sorting method" : "Sort"}
             </option>
             <option value="rating">Rating (Highest -&gt; Lowest)</option>
-            <option value="date">"Date Added (Recent -&gt; Oldest)</option>
-            <option value="alphabetical">Name (Alphabetical)</option>
+            <option value="date">Release Date (Recent -&gt; Oldest)</option>
+            <option value="title">Title (Alphabetically, A-Z)</option>
           </select>
         </section>
       </header>

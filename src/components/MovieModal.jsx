@@ -80,6 +80,7 @@ const MovieModal = (props) => {
     <div
       className="modal-container"
       style={{ display: props.selectedMovieData ? "flex" : "none" }}
+      onClick={(event) => event.target.className === "modal-container" ? exitModal() : null}
     >
       <div className="modal">
         <span class="modal-exit material-symbols-outlined" onClick={exitModal}>

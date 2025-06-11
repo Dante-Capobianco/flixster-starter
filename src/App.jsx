@@ -19,6 +19,39 @@ const App = () => {
     },
   };
 
+  const moviesSame = (newMovieList) => {
+    if (newMovieList.length !== moviesData.length) return false;
+    return newMovieList.every((movie, index) => movie.id === moviesData[index].id);
+  }
+
+  useEffect(() => {
+    let newMovieList;
+    switch (sortingMethod) {
+      case "rating":
+        newMovieList = moviesData.toSorted((movieA, movieB) => {
+          const sortOrder = movieB.vote_average - movieA.vote_average;
+          if (sortOrder === 0) {
+            return movieA.title.localeCompare(movieB.title);
+          }
+          return sortOrder;
+        });
+        break;
+
+      case "date":
+        newMovieList = moviesData.toSorted((movieA, movieB) =>
+          movieB.release_date.localeCompare(movieA.release_date)
+        );
+        break;
+
+      case "title":
+        newMovieList = moviesData.toSorted((movieA, movieB) =>
+          movieA.title.localeCompare(movieB.title)
+        );
+        break;
+    }
+    if (sortingMethod && !moviesSame(newMovieList)) setMoviesData(newMovieList);
+  }, [sortingMethod, moviesData]);
+
   const handleSearch = (event, submitOrClear) => {
     event.preventDefault();
     if (submitOrClear === "submit") {
@@ -43,8 +76,8 @@ const App = () => {
   return (
     <div className="App">
       <header id="app-header" className="App-header">
-        <h1 style={{ margin: 0 }}>Flixster</h1>
-        <p>Your go-to tool to find any movies</p>
+        <h1 className="title"><img src="/movie.png" width="30px"></img> Flixster <img src="/movie.png" width="30px"></img></h1>
+        <p style={{fontFamily: 'fantasy'}}>Your go-to tool to find any movies</p>
 
         <section className="header-search-sort">
           <form>
@@ -93,9 +126,19 @@ const App = () => {
       </header>
 
       <main>
-        <MovieList options={options} setSelectedMovieData={setSelectedMovieData} moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
+        <MovieList
+          options={options}
+          setSelectedMovieData={setSelectedMovieData}
+          moviesData={moviesData}
+          setMoviesData={setMoviesData}
+          searchQuery={searchQueryToSubmit}
+        />
       </main>
-      <MovieModal options={options} setSelectedMovieData={setSelectedMovieData} selectedMovieData={selectedMovieData} />
+      <MovieModal
+        options={options}
+        setSelectedMovieData={setSelectedMovieData}
+        selectedMovieData={selectedMovieData}
+      />
 
       {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer style={{ height: footerHeight }}>

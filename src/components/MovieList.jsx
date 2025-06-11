@@ -5,28 +5,20 @@ const MovieList = (props) => {
   const [fetchedPage, setFetchedPage] = useState(1);
   const [disableLoadMore, setDisableLoadMore] = useState(false);
   const [alreadySearched, setAlreadySearched] = useState(false);
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_READ_ACCESS_TOKEN}`,
-    },
-  };
 
   const fetchMovies = async () => {
-    const apiKey = import.meta.env.VITE_APP_API_KEY;
     let response;
 
     try {
       if (!props.searchQuery) {
         response = await fetch(
           `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${fetchedPage}}`,
-          options
+          props.options
         );
       } else {
         response = await fetch(
           `https://api.themoviedb.org/3/search/movie?query=${props.searchQuery}&language=en-US&page=${fetchedPage}`,
-          options
+          props.options
         );
       }
 

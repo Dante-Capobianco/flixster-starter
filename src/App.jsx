@@ -11,6 +11,13 @@ const App = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [selectedMovieData, setSelectedMovieData] = useState(null);
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_READ_ACCESS_TOKEN}`,
+    },
+  };
 
   const handleSearch = (event, submitOrClear) => {
     event.preventDefault();
@@ -86,9 +93,9 @@ const App = () => {
       </header>
 
       <main>
-        <MovieList setSelectedMovieData={setSelectedMovieData} moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
+        <MovieList options={options} setSelectedMovieData={setSelectedMovieData} moviesData={moviesData} setMoviesData={setMoviesData} searchQuery={searchQueryToSubmit} />
       </main>
-      <MovieModal selectedMovieData={selectedMovieData} />
+      <MovieModal options={options} setSelectedMovieData={setSelectedMovieData} selectedMovieData={selectedMovieData} />
 
       {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer style={{ height: footerHeight }}>

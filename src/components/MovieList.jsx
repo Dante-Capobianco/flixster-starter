@@ -63,12 +63,14 @@ const MovieList = (props) => {
     <>
       <section className="movie-list">
         {props.moviesData.length > 0 ? (
-          props.moviesData.map((movie, index) => (
+          props.moviesData.map((movie) => (
             <MovieCard
-              key={index}
+              key={movie.id}
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt={`${movie.title} Poster Image`}
               title={movie.title}
+              movieIsFavorited={props.favoriteMovies.some((favoriteMovie) => favoriteMovie.id === movie.id)}
+              movieIsWatched={props.watchedMovies.some((watchedMovie) => watchedMovie.id === movie.id)}
               vote_average={movie.vote_average}
               setSelectedMovieData={props.setSelectedMovieData}
               movieData={movie}

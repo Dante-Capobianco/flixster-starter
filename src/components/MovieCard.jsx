@@ -40,8 +40,8 @@ const MovieCard = (props) => {
       <h2 className="movie-card-title">{props.title}</h2>
       <section className="rating-fav-watch-container">
         <h3 className="movie-card-rating">Rating: {props.vote_average}</h3>
-        <span class="heart material-symbols-outlined">favorite</span>
-        <span class="eye material-symbols-outlined">visibility</span>
+        <span class={`${props.movieIsFavorited ? "favorite" : ""} heart material-symbols-outlined`}>favorite</span>
+        <span class={`${props.movieIsWatched ? "watched" : ""} eye material-symbols-outlined`}>visibility</span>
       </section>
     </article>
   );

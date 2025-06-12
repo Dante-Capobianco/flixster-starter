@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should format movie tile correctly 1`] = `
+<article
+  className="movie-card"
+  onClick={[Function]}
+>
+  <img
+    alt="Movie Poster Image"
+    className="movie-card-poster"
+    src="https://image.tmdb.org/t/p/w500//lbimIPTVsSlnmqSW5ngEsUxtHLM.jpg"
+  />
+  <h2
+    className="movie-card-title"
+  >
+    Movie Title
+  </h2>
+  <section
+    className="rating-fav-watch-container"
+  >
+    <h3
+      className="movie-card-rating"
+    >
+      Rating: 
+      7.95
+    </h3>
+    <span
+      class=" heart material-symbols-outlined"
+    >
+      favorite
+    </span>
+    <span
+      class=" eye material-symbols-outlined"
+    >
+      visibility
+    </span>
+  </section>
+</article>
+`;

@@ -377,6 +377,12 @@ footer {
   }
 }
 
+@media (max-width: 799px) {
+  .rating-fav-watch-container {
+    margin: auto 0 5px 0;
+  }
+}
+
 @media (max-width: 499px) {
   .sort-options,
   .search-bar {

@@ -34,7 +34,7 @@ footer {
   justify-content: center;
   gap: 10px;
   align-items: center;
-  font-family:'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 40px;
 }
 
@@ -128,6 +128,10 @@ footer {
   scale: 1.04;
 }
 
+.movie-card:active {
+  scale: 1;
+}
+
 .movie-card-poster {
   margin: 5px 0 5px 0;
   max-height: 70%;
@@ -137,7 +141,7 @@ footer {
 
 .movie-card-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
   padding: 0 10px 0px 10px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -146,9 +150,35 @@ footer {
   overflow: hidden;
 }
 
+.rating-fav-watch-container {
+  margin: auto 0 10px 0;
+  display: flex;
+  gap: 10px;
+}
+
 .movie-card-rating {
-  margin: auto 0 5px 0;
-  font-size: 18px;
+  margin: auto 0 3px 0;
+  font-size: 16px;
+}
+
+.favorite.material-symbols-outlined {
+  color: red;
+  font-variation-settings: "FILL" 100;
+}
+
+.heart.material-symbols-outlined:hover {
+  color: lightcoral;
+  font-variation-settings: "FILL" 100;
+}
+
+.eye.material-symbols-outlined:hover {
+  color: #78bff9;
+  font-variation-settings: "FILL" 100;
+}
+
+.watched.material-symbols-outlined {
+  color: #2196F3;
+  font-variation-settings: "FILL" 100;
 }
 
 .load-more-btn {
@@ -229,6 +259,16 @@ footer {
   margin-bottom: 15px;
   border-radius: 15px;
   border: 2px solid lightgrey;
+}
+
+@media (max-width: 1200px) {
+  .movie-card-title {
+    font-size: 18px;
+  }
+
+  .movie-card-rating {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 975px) and (min-width: 650px) {

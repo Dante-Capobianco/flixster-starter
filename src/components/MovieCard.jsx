@@ -1,14 +1,48 @@
 const MovieCard = (props) => {
+  const handleMovieClick = (event) => {
+    if (event.target?.innerText === "favorite") {
+      toggleFavorite(event.target.classList);
+    } else if (event.target?.innerText === "visibility") {
+      toggleWatched(event.target.classList);
+    } else {
+      props.setSelectedMovieData(props.movieData);
+    }
+  };
+
+  const toggleFavorite = (clickedIconClasses) => {
+    if (clickedIconClasses.contains("favorite")) {
+      const newFavoriteMovies = props.favoriteMovies.filter(
+        (favoriteMovie) => favoriteMovie.id !== props.movieData.id
+      );
+      props.setFavoriteMovies(newFavoriteMovies);
+    } else {
+      props.setFavoriteMovies([...props.favoriteMovies, props.movieData]);
+    }
+    clickedIconClasses.toggle("favorite");
+    
+  };
+
+  const toggleWatched = (clickedIconClasses) => {
+    if (clickedIconClasses.contains("watched")) {
+      const newWatchedMovies = props.watchedMovies.filter(
+        (watchedMovie) => watchedMovie.id !== props.movieData.id
+      );
+      props.setWatchedMovies(newWatchedMovies);
+    } else {
+      props.setWatchedMovies([...props.watchedMovies, props.movieData]);
+    }
+    clickedIconClasses.toggle("watched");
+  };
+
   return (
-    <article className="movie-card" onClick={() => props.setSelectedMovieData(props.movieData)}>
-      <img
-        src={props.src}
-        alt={props.alt}
-        className="movie-card-poster"
-      />
-      {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?usp=sharing */}
+    <article className="movie-card" onClick={handleMovieClick}>
+      <img src={props.src} alt={props.alt} className="movie-card-poster" />
       <h2 className="movie-card-title">{props.title}</h2>
-      <h3 className="movie-card-rating">Rating: {props.vote_average}</h3>
+      <section className="rating-fav-watch-container">
+        <h3 className="movie-card-rating">Rating: {props.vote_average}</h3>
+        <span class="heart material-symbols-outlined">favorite</span>
+        <span class="eye material-symbols-outlined">visibility</span>
+      </section>
     </article>
   );
 };

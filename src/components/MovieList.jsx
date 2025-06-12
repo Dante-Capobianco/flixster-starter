@@ -5,6 +5,7 @@ const MovieList = (props) => {
   const [fetchedPage, setFetchedPage] = useState(1);
   const [disableLoadMore, setDisableLoadMore] = useState(false);
   const [alreadySearched, setAlreadySearched] = useState(false);
+  const success = 200;
 
   const fetchMovies = async () => {
     let response;
@@ -22,7 +23,7 @@ const MovieList = (props) => {
         );
       }
 
-      if (response.status === 200) {
+      if (response.status === success) {
         const movies = await response.json();
 
         if (fetchedPage === movies.total_pages) setDisableLoadMore(true);
@@ -47,7 +48,8 @@ const MovieList = (props) => {
 
   useEffect(() => {
     // alreadySearched handles edge case where infinite loop calling fetchMovies when no movies are found
-    if (props.moviesData?.length === 0 && fetchedPage === 1 && !alreadySearched) fetchMovies();
+    if (props.moviesData?.length === 0 && fetchedPage === 1 && !alreadySearched)
+      fetchMovies();
   }, [props.moviesData, fetchedPage]);
 
   useEffect(() => {
@@ -60,19 +62,25 @@ const MovieList = (props) => {
   return (
     <>
       <section className="movie-list">
-        {props.moviesData.length > 0
-          ? props.moviesData.map((movie, index) => (
-              <MovieCard
-                key={index}
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                alt={`${movie.title} Poster Image`}
-                title={movie.title}
-                vote_average={movie.vote_average}
-                setSelectedMovieData={props.setSelectedMovieData}
-                movieData={movie}
-              />
-            ))
-          : <h3>No movies found</h3>}
+        {props.moviesData.length > 0 ? (
+          props.moviesData.map((movie, index) => (
+            <MovieCard
+              key={index}
+              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              alt={`${movie.title} Poster Image`}
+              title={movie.title}
+              vote_average={movie.vote_average}
+              setSelectedMovieData={props.setSelectedMovieData}
+              movieData={movie}
+              favoriteMovies={props.favoriteMovies}
+              setFavoriteMovies={props.setFavoriteMovies}
+              watchedMovies={props.watchedMovies}
+              setWatchedMovies={props.setWatchedMovies}
+            />
+          ))
+        ) : (
+          <h3>No movies found</h3>
+        )}
       </section>
 
       <button

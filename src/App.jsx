@@ -9,8 +9,18 @@ const App = () => {
   const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
   const [footerHeight, setFooterHeight] = useState(0);
   const [moviesData, setMoviesData] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [watchedMovies, setWatchedMovies] = useState([]);
   const [selectedMovieData, setSelectedMovieData] = useState(null);
+
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
+  const titleIconSize = "30px";
+  const titleIconAlt = "Movie recording device icon";
+  const titleIconSrc = "/movie.png";
+  const submit = "submit";
+  const sortByRating = "rating";
+  const sortByDate = "date";
+  const sortByTitle = "title";
   const options = {
     method: "GET",
     headers: {
@@ -21,13 +31,15 @@ const App = () => {
 
   const moviesSame = (newMovieList) => {
     if (newMovieList.length !== moviesData.length) return false;
-    return newMovieList.every((movie, index) => movie.id === moviesData[index].id);
-  }
+    return newMovieList.every(
+      (movie, index) => movie.id === moviesData[index].id
+    );
+  };
 
   useEffect(() => {
     let newMovieList;
     switch (sortingMethod) {
-      case "rating":
+      case sortByRating:
         newMovieList = moviesData.toSorted((movieA, movieB) => {
           const sortOrder = movieB.vote_average - movieA.vote_average;
           if (sortOrder === 0) {
@@ -37,13 +49,13 @@ const App = () => {
         });
         break;
 
-      case "date":
+      case sortByDate:
         newMovieList = moviesData.toSorted((movieA, movieB) =>
           movieB.release_date.localeCompare(movieA.release_date)
         );
         break;
 
-      case "title":
+      case sortByTitle:
         newMovieList = moviesData.toSorted((movieA, movieB) =>
           movieA.title.localeCompare(movieB.title)
         );
@@ -52,16 +64,17 @@ const App = () => {
     if (sortingMethod && !moviesSame(newMovieList)) setMoviesData(newMovieList);
   }, [sortingMethod, moviesData]);
 
-  const handleSearch = (event, submitOrClear) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (submitOrClear === "submit") {
-      document.getElementById("submit-search-btn").blur();
-      setSearchQueryToSubmit(searchValue);
-    } else {
-      document.getElementById("clear-search-btn").blur();
-      setSearchValue("");
-      setSearchQueryToSubmit("");
-    }
+    document.getElementById("submit-search-btn").blur();
+    setSearchQueryToSubmit(searchValue);
+  };
+
+  const handleClear = (event) => {
+    event.preventDefault();
+    document.getElementById("clear-search-btn").blur();
+    setSearchValue("");
+    setSearchQueryToSubmit("");
   };
 
   // On initial render, get header/banner height to dynamically set height of footer to be responsive
@@ -76,8 +89,14 @@ const App = () => {
   return (
     <div className="App">
       <header id="app-header" className="App-header">
-        <h1 className="title"><img src="/movie.png" width="30px"></img> Flixster <img src="/movie.png" width="30px"></img></h1>
-        <p style={{fontFamily: 'fantasy'}}>Your go-to tool to find any movies</p>
+        <h1 className="title">
+          <img src={titleIconSrc} alt={titleIconAlt} width={titleIconSize} />{" "}
+          Flixster{" "}
+          <img src={titleIconSrc} alt={titleIconAlt} width={titleIconSize} />
+        </h1>
+        <p style={{ fontFamily: "fantasy" }}>
+          Your go-to tool to find any movies
+        </p>
 
         <section className="header-search-sort">
           <form>
@@ -92,16 +111,16 @@ const App = () => {
             />
             <div className="search-btn-container">
               <button
-                type="submit"
-                onClick={(e) => handleSearch(e, "submit")}
+                type={submit}
+                onClick={(event) => handleSubmit(event)}
                 id="submit-search-btn"
                 className="search-btn"
               >
                 Search
               </button>
               <button
-                type="submit"
-                onClick={(e) => handleSearch(e, "clear")}
+                type={submit}
+                onClick={(event) => handleClear(event)}
                 id="clear-search-btn"
                 className="search-btn"
               >
@@ -118,9 +137,11 @@ const App = () => {
             <option value="" disabled>
               {window.innerWidth >= 500 ? "Choose a sorting method" : "Sort"}
             </option>
-            <option value="rating">Rating (Highest -&gt; Lowest)</option>
-            <option value="date">Release Date (Recent -&gt; Oldest)</option>
-            <option value="title">Title (Alphabetically, A-Z)</option>
+            <option value={sortByRating}>Rating (Highest -&gt; Lowest)</option>
+            <option value={sortByDate}>
+              Release Date (Recent -&gt; Oldest)
+            </option>
+            <option value={sortByTitle}>Title (Alphabetically, A-Z)</option>
           </select>
         </section>
       </header>
@@ -132,6 +153,10 @@ const App = () => {
           moviesData={moviesData}
           setMoviesData={setMoviesData}
           searchQuery={searchQueryToSubmit}
+          favoriteMovies={favoriteMovies}
+          setFavoriteMovies={setFavoriteMovies}
+          watchedMovies={watchedMovies}
+          setWatchedMovies={setWatchedMovies}
         />
       </main>
       <MovieModal
@@ -140,7 +165,6 @@ const App = () => {
         selectedMovieData={selectedMovieData}
       />
 
-      {/* todo: https://docs.google.com/document/d/1zdT1PrCLJ-UU60-sMpy_jReyd3tehnzBKxdxPFKIO7g/edit?tab=t.0 */}
       <footer style={{ height: footerHeight }}>
         <h4>&copy; 2025 Flixster</h4>
       </footer>

@@ -60,7 +60,8 @@ const MovieModal = (props) => {
         let trailer = videoData?.results.find((video) =>
           video.name.includes("Official Trailer")
         );
-        if (!trailer) { // Aim to find official/main trailer, otherwise find any trailer offered
+        // Aim to find official/main trailer, otherwise find any trailer offered
+        if (!trailer) {
           trailer = videoData?.results.find((video) =>
             video.name.includes("Trailer")
           );
@@ -80,7 +81,9 @@ const MovieModal = (props) => {
     <div
       className="modal-container"
       style={{ display: props.selectedMovieData ? "flex" : "none" }}
-      onClick={(event) => event.target.className === "modal-container" ? exitModal() : null}
+      onClick={(event) =>
+        event.target.className === "modal-container" ? exitModal() : null
+      }
     >
       <div className="modal">
         <span class="modal-exit material-symbols-outlined" onClick={exitModal}>

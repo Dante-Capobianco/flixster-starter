@@ -4,15 +4,6 @@ import MovieList from "./components/MovieList";
 import MovieModal from "./components/MovieModal";
 
 const App = () => {
-  const [sortingMethod, setSortingMethod] = useState("");
-  const [searchValue, setSearchValue] = useState("");
-  const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
-  const [footerHeight, setFooterHeight] = useState(0);
-  const [moviesData, setMoviesData] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [watchedMovies, setWatchedMovies] = useState([]);
-  const [selectedMovieData, setSelectedMovieData] = useState(null);
-
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
   const titleIconSize = "30px";
   const titleIconAlt = "Movie recording device icon";
@@ -21,6 +12,9 @@ const App = () => {
   const sortByRating = "rating";
   const sortByDate = "date";
   const sortByTitle = "title";
+  const home = "Home";
+  const favorites = "Favorites";
+  const watched = "Watched";
   const options = {
     method: "GET",
     headers: {
@@ -28,6 +22,17 @@ const App = () => {
       Authorization: `Bearer ${import.meta.env.VITE_READ_ACCESS_TOKEN}`,
     },
   };
+
+  const [sortingMethod, setSortingMethod] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [searchQueryToSubmit, setSearchQueryToSubmit] = useState("");
+  const [footerHeight, setFooterHeight] = useState(0);
+  const [moviesData, setMoviesData] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [watchedMovies, setWatchedMovies] = useState([]);
+  const [selectedMovieData, setSelectedMovieData] = useState(null);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(home);
 
   const moviesSame = (newMovieList) => {
     if (newMovieList.length !== moviesData.length) return false;
@@ -99,6 +104,12 @@ const App = () => {
         </p>
 
         <section className="header-search-sort">
+          <span
+            class="sidebar-icon material-symbols-outlined"
+            onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+          >
+            {sidebarIsOpen ? "density_medium" : "menu"}
+          </span>
           <form>
             <input
               type="text"
@@ -147,6 +158,40 @@ const App = () => {
       </header>
 
       <main>
+        <nav
+          className="sidebar-container"
+          style={{
+            left: sidebarIsOpen ? 0 : "-20vw",
+            boxShadow: sidebarIsOpen ? "20px 0px 40px black" : "",
+          }}
+        >
+          <ul className="sidebar-options">
+            <li
+              className={`sidebar-option ${
+                currentPage === home ? "current-page" : ""
+              }`}
+              onClick={() => setCurrentPage(home)}
+            >
+              {home}
+            </li>
+            <li
+              className={`sidebar-option ${
+                currentPage === favorites ? "current-page" : ""
+              }`}
+              onClick={() => setCurrentPage(favorites)}
+            >
+              {favorites}
+            </li>
+            <li
+              className={`sidebar-option ${
+                currentPage === watched ? "current-page" : ""
+              }`}
+              onClick={() => setCurrentPage(watched)}
+            >
+              {watched}
+            </li>
+          </ul>
+        </nav>
         <MovieList
           options={options}
           setSelectedMovieData={setSelectedMovieData}

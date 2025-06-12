@@ -110,7 +110,7 @@ const App = () => {
           >
             {sidebarIsOpen ? "density_medium" : "menu"}
           </span>
-          <form>
+          <form style={{ display: currentPage !== home ? "none" : "" }}>
             <input
               type="text"
               class="search-bar"
@@ -144,6 +144,7 @@ const App = () => {
             value={sortingMethod}
             className="sort-options"
             onChange={(event) => setSortingMethod(event.target.value)}
+            style={{ display: currentPage !== home ? "none" : "" }}
           >
             <option value="" disabled>
               {window.innerWidth >= 500 ? "Choose a sorting method" : "Sort"}
@@ -202,6 +203,7 @@ const App = () => {
           setFavoriteMovies={setFavoriteMovies}
           watchedMovies={watchedMovies}
           setWatchedMovies={setWatchedMovies}
+          currentPage={currentPage}
         />
       </main>
       <MovieModal

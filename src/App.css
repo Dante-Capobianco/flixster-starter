@@ -42,6 +42,7 @@ footer {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  height: 5vh;
 }
 
 .sidebar-icon {
@@ -120,6 +121,7 @@ footer {
   position: absolute;
   border-radius: 0 10px 10px 0;
   transition: left 0.5s ease;
+  z-index: 1;
 }
 
 .sidebar-options {
@@ -128,8 +130,8 @@ footer {
 }
 
 .sidebar-option {
-  padding: 10px;
-  margin: 30px;
+  padding: 10px 0 10px 0;
+  margin: 30px 0 30px 0;
   font-size: 18px;
   color: white;
   cursor: pointer;
@@ -343,6 +345,10 @@ footer {
   .search-btn {
     width: 8vw;
   }
+
+  .sidebar-icon {
+    font-size: 25px;
+  }
 }
 
 @media (max-width: 799px) and (min-width: 500px) {
@@ -351,8 +357,14 @@ footer {
     font-size: 12px;
   }
 
+  .sidebar-icon {
+    font-size: 20px;
+    margin-left: 1vw;
+  }
+
   .search-bar {
-    width: 25vw;
+    width: 20vw;
+    margin-left: 5vw;
   }
 
   .sort-options {
@@ -368,7 +380,7 @@ footer {
 @media (max-width: 499px) {
   .sort-options,
   .search-bar {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   form {
@@ -384,7 +396,13 @@ footer {
   }
 
   .search-bar {
-    width: 25vw;
+    width: 20vw;
+    margin-left: 5vw;
+  }
+
+  .sidebar-icon {
+    font-size: 15px;
+    margin-left: 1vw;
   }
 
   .sort-options {
@@ -394,5 +412,19 @@ footer {
   .search-btn {
     width: 50px;
     font-size: 8px;
+  }
+
+  .sidebar-option {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 499px) {
+  .sidebar-icon {
+    font-size: 10px;
+  }
+
+  .search-bar {
+    margin-left: 8vw;
   }
 }

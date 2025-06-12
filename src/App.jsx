@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList";
 import MovieModal from "./components/MovieModal";
+import {
+  sortMoviesByRating,
+  moviesSame,
+  sortMoviesByDate,
+  sortMoviesByTitle,
+} from "./utils/utils";
 
 const App = () => {
+  // Constants, avoiding magic numbers/strings
   const movieTileHeight = window.innerHeight * 0.75; // 75vh
   const titleIconSize = "30px";
   const titleIconAlt = "Movie recording device icon";
@@ -15,6 +22,8 @@ const App = () => {
   const home = "Home";
   const favorites = "Favorites";
   const watched = "Watched";
+
+  // API fetch configuration
   const options = {
     method: "GET",
     headers: {
@@ -31,58 +40,10 @@ const App = () => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [watchedMovies, setWatchedMovies] = useState([]);
   const [selectedMovieData, setSelectedMovieData] = useState(null);
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(home);
 
-  const moviesSame = (newMovieList) => {
-    if (newMovieList.length !== moviesData.length) return false;
-    return newMovieList.every(
-      (movie, index) => movie.id === moviesData[index].id
-    );
-  };
-
-  useEffect(() => {
-    let newMovieList;
-    switch (sortingMethod) {
-      case sortByRating:
-        newMovieList = moviesData.toSorted((movieA, movieB) => {
-          const sortOrder = movieB.vote_average - movieA.vote_average;
-          if (sortOrder === 0) {
-            return movieA.title.localeCompare(movieB.title);
-          }
-          return sortOrder;
-        });
-        break;
-
-      case sortByDate:
-        newMovieList = moviesData.toSorted((movieA, movieB) =>
-          movieB.release_date.localeCompare(movieA.release_date)
-        );
-        break;
-
-      case sortByTitle:
-        newMovieList = moviesData.toSorted((movieA, movieB) =>
-          movieA.title.localeCompare(movieB.title)
-        );
-        break;
-    }
-    if (sortingMethod && !moviesSame(newMovieList)) setMoviesData(newMovieList);
-  }, [sortingMethod, moviesData]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    document.getElementById("submit-search-btn").blur();
-    setSearchQueryToSubmit(searchValue);
-  };
-
-  const handleClear = (event) => {
-    event.preventDefault();
-    document.getElementById("clear-search-btn").blur();
-    setSearchValue("");
-    setSearchQueryToSubmit("");
-  };
-
-  // On initial render, get header/banner height to dynamically set height of footer to be responsive
+  // On initial render, use header/banner, tile list, and window heights to dynamically set height of footer to be responsive
   useEffect(() => {
     let height =
       window.innerHeight -
@@ -91,12 +52,47 @@ const App = () => {
     setFooterHeight(height > 50 ? height : 50);
   }, []);
 
+  // Update ordering of movies based on selected sorting method
+  useEffect(() => {
+    let newMovieList;
+    switch (sortingMethod) {
+      case sortByRating:
+        newMovieList = sortMoviesByRating(moviesData);
+        break;
+
+      case sortByDate:
+        newMovieList = sortMoviesByDate(moviesData);
+        break;
+
+      case sortByTitle:
+        newMovieList = sortMoviesByTitle(moviesData);
+        break;
+    }
+    if (sortingMethod && !moviesSame(moviesData, newMovieList))
+      setMoviesData(newMovieList);
+  }, [sortingMethod, moviesData]);
+
+  // Update search query used to filter movies by once user clicks submit button
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    document.getElementById("submit-search-btn").blur();
+    setSearchQueryToSubmit(searchValue);
+  };
+
+  // Clear search query to reset movies by now playing once user clicks clear button
+  const handleClear = (event) => {
+    event.preventDefault();
+    document.getElementById("clear-search-btn").blur();
+    setSearchValue("");
+    setSearchQueryToSubmit("");
+  };
+
   return (
     <div className="App">
       <header id="app-header" className="App-header">
         <h1 className="title">
-          <img src={titleIconSrc} alt={titleIconAlt} width={titleIconSize} />{" "}
-          Flixster{" "}
+          <img src={titleIconSrc} alt={titleIconAlt} width={titleIconSize} />
+          Flixster
           <img src={titleIconSrc} alt={titleIconAlt} width={titleIconSize} />
         </h1>
         <p style={{ fontFamily: "fantasy" }}>
@@ -106,14 +102,15 @@ const App = () => {
         <section className="header-search-sort">
           <span
             class="sidebar-icon material-symbols-outlined"
-            onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
           >
-            {sidebarIsOpen ? "density_medium" : "menu"}
+            {isSideBarOpen ? "density_medium" : "menu"}
           </span>
           <form style={{ display: currentPage !== home ? "none" : "" }}>
             <input
               type="text"
               class="search-bar"
+              // Reduce placeholder text length to fit on smaller devices
               placeholder={
                 window.innerWidth >= 500 ? "Search for a movie title" : "Search"
               }
@@ -147,6 +144,7 @@ const App = () => {
             style={{ display: currentPage !== home ? "none" : "" }}
           >
             <option value="" disabled>
+              {/* Reduce placeholder text length to fit on smaller devices */}
               {window.innerWidth >= 500 ? "Choose a sorting method" : "Sort"}
             </option>
             <option value={sortByRating}>Rating (Highest -&gt; Lowest)</option>
@@ -162,8 +160,8 @@ const App = () => {
         <nav
           className="sidebar-container"
           style={{
-            left: sidebarIsOpen ? 0 : "-20vw",
-            boxShadow: sidebarIsOpen ? "20px 0px 40px black" : "",
+            left: isSideBarOpen ? 0 : "-20vw",
+            boxShadow: isSideBarOpen ? "20px 0px 40px black" : "",
           }}
         >
           <ul className="sidebar-options">
@@ -206,6 +204,7 @@ const App = () => {
           currentPage={currentPage}
         />
       </main>
+
       <MovieModal
         options={options}
         setSelectedMovieData={setSelectedMovieData}

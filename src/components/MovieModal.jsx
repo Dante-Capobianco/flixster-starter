@@ -5,6 +5,7 @@ const MovieModal = (props) => {
   const [movieRuntime, setMovieRuntime] = useState(0);
   const [trailerKey, setTrailerKey] = useState("");
 
+  // Once movie is selected, collect additional modal information
   useEffect(() => {
     if (props.selectedMovieData) {
       fetchAdditionalData();
@@ -12,6 +13,7 @@ const MovieModal = (props) => {
     }
   }, [props.selectedMovieData]);
 
+  // Reset additional modal information & hide modal display
   const exitModal = () => {
     setMovieGenres([]);
     setMovieRuntime(0);
@@ -27,6 +29,7 @@ const MovieModal = (props) => {
     setMovieGenres(genresToAdd);
   };
 
+  // Fetch additional modal information (runtime & genres)
   const fetchAdditionalData = async () => {
     try {
       const response = await fetch(
@@ -48,6 +51,7 @@ const MovieModal = (props) => {
     }
   };
 
+  // Fetch official movie trailer, otherwise any trailer video retrieved
   const fetchTrailer = async () => {
     try {
       const response = await fetch(
@@ -60,7 +64,6 @@ const MovieModal = (props) => {
         let trailer = videoData?.results.find((video) =>
           video.name.includes("Official Trailer")
         );
-        // Aim to find official/main trailer, otherwise find any trailer offered
         if (!trailer) {
           trailer = videoData?.results.find((video) =>
             video.name.includes("Trailer")
@@ -90,9 +93,9 @@ const MovieModal = (props) => {
           close
         </span>
         <img
+          className="modal-backdrop"
           src={`https://image.tmdb.org/t/p/original/${props.selectedMovieData?.backdrop_path}`}
           alt={`${props.selectedMovieData?.title} Backdrop Image`}
-          className="modal-backdrop"
         />
         <h2 style={{ alignSelf: "center" }}>
           {props.selectedMovieData?.title}
@@ -110,14 +113,14 @@ const MovieModal = (props) => {
             <h3>Runtime</h3>
             <h4>{movieRuntime} minutes</h4>
             <h3>Overview</h3>
-            <h5 className="modal-overview">
+            <h4 className="modal-overview">
               {props.selectedMovieData?.overview}
-            </h5>
+            </h4>
           </div>
           <img
+            className="modal-poster"
             src={`https://image.tmdb.org/t/p/original/${props.selectedMovieData?.poster_path}`}
             alt={`${props.selectedMovieData?.title} Poster Image`}
-            className="modal-poster"
           />
         </section>
         <section style={{ width: "100%" }}>

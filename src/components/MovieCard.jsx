@@ -1,4 +1,5 @@
 const MovieCard = (props) => {
+  // Handle movie tile click, whether selecting favorite icon, watched icon, or rest of tile to open modal
   const handleMovieClick = (event) => {
     if (event.target?.innerText === "favorite") {
       toggleFavorite(event.target.classList);
@@ -9,8 +10,9 @@ const MovieCard = (props) => {
     }
   };
 
-  const toggleFavorite = (clickedIconClasses) => {
-    if (clickedIconClasses.contains("favorite")) {
+  // Toggle favorite icon on selected movie & update favorited movies list
+  const toggleFavorite = (heartIconClassList) => {
+    if (heartIconClassList.contains("favorite")) {
       const newFavoriteMovies = props.favoriteMovies.filter(
         (favoriteMovie) => favoriteMovie.id !== props.movieData.id
       );
@@ -18,12 +20,12 @@ const MovieCard = (props) => {
     } else {
       props.setFavoriteMovies([...props.favoriteMovies, props.movieData]);
     }
-    clickedIconClasses.toggle("favorite");
-    
+    heartIconClassList.toggle("favorite");
   };
 
-  const toggleWatched = (clickedIconClasses) => {
-    if (clickedIconClasses.contains("watched")) {
+  // Toggle watched icon on selected movie & update watched movies list
+  const toggleWatched = (eyeIconClassList) => {
+    if (eyeIconClassList.contains("watched")) {
       const newWatchedMovies = props.watchedMovies.filter(
         (watchedMovie) => watchedMovie.id !== props.movieData.id
       );
@@ -31,7 +33,7 @@ const MovieCard = (props) => {
     } else {
       props.setWatchedMovies([...props.watchedMovies, props.movieData]);
     }
-    clickedIconClasses.toggle("watched");
+    eyeIconClassList.toggle("watched");
   };
 
   return (
@@ -40,8 +42,20 @@ const MovieCard = (props) => {
       <h2 className="movie-card-title">{props.title}</h2>
       <section className="rating-fav-watch-container">
         <h3 className="movie-card-rating">Rating: {props.vote_average}</h3>
-        <span class={`${props.movieIsFavorited ? "favorite" : ""} heart material-symbols-outlined`}>favorite</span>
-        <span class={`${props.movieIsWatched ? "watched" : ""} eye material-symbols-outlined`}>visibility</span>
+        <span
+          class={`${
+            props.isMovieFavorited ? "favorite" : ""
+          } heart material-symbols-outlined`}
+        >
+          favorite
+        </span>
+        <span
+          class={`${
+            props.isMovieWatched ? "watched" : ""
+          } eye material-symbols-outlined`}
+        >
+          visibility
+        </span>
       </section>
     </article>
   );

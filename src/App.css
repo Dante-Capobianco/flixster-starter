@@ -117,7 +117,7 @@ footer {
 .sidebar-container {
   width: 20vw;
   height: 75vh;
-  background-color: #5c6370;
+  background-color: #464953;
   position: absolute;
   border-radius: 0 10px 10px 0;
   transition: left 0.5s ease;
@@ -140,7 +140,7 @@ footer {
 
 .sidebar-option:hover,
 .current-page {
-  color: rgb(196, 196, 196);
+  color: #e8e8e8;
   scale: 1.2;
 }
 
@@ -300,6 +300,7 @@ footer {
 
 .modal-overview {
   font-weight: normal;
+  font-size: 14px;
 }
 
 .modal-trailer {

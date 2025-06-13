@@ -106,7 +106,16 @@ Deployed Application: [Flixster Deployed Site](https://flixster-starter-rj4p.onr
 
 ### Walkthrough Video
 
-`ADD_EMBEDDED_CODE_HERE`
+<div>
+    <a href="https://www.loom.com/share/09b64b08505c4930b27dd9244e61540d">
+      <p>Flixter Project Overview: Features and Functionality - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/09b64b08505c4930b27dd9244e61540d">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/09b64b08505c4930b27dd9244e61540d-159c4debf14a50d9-full-play.gif">
+    </a>
+  </div>
+
+#### Key Add-On: Even implemented ellipsis in text (if overflows) & changed styling of header/footer to be responsive across all device sizes offered in Google Chrome DevTools
 
 ### Reflection
 
